@@ -37,7 +37,7 @@ const userSchema = new Schema({
   admin: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 module.exports = model('User', userSchema);
