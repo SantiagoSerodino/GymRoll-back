@@ -1,4 +1,29 @@
+//Importamos modulos necesarios
 const User = require('../models/userModel');
+const bcrypt = require('bcrypt');const bcrypt = require('bcrypt');
+
+// Servicio para crear usuarios con sus contraseñas encriptadas
+const createUserService = async ({
+  userName,
+  password,
+  email,
+  admin,
+}) => {
+  const saltRounds = 10;
+
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  const newUser = await User.create({
+    userName,
+    email,
+    password: hashedPassword,
+    admin,
+  })
+
+  if (!newUser) throw new Error ('hubo un error al crear el usuario');
+  return newUser;
+};
+
 
 const getAllusersService = async ({ username, email, names, lastName, phoneNumber, contractedPlan, admin }) => {
     let query = {}; 
@@ -41,5 +66,6 @@ const getAllusersService = async ({ username, email, names, lastName, phoneNumbe
 
 
   module.exports = {
+    createUserService,
     getAllusersService,
   };

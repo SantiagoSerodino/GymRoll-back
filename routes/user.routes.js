@@ -1,10 +1,11 @@
 const express = require('express');
-const {getAllUsers} = require('../controllers/user.controllers');
+const {createUser, getAllUsers} = require('../controllers/user.controllers');
 
 //Instanciando express
 const route = express();
 
 //Metodos HTTP
+route.post('/register', createUser);
 route.get('/', getAllUsers);
 
 
