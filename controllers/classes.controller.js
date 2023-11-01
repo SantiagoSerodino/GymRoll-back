@@ -1,17 +1,30 @@
-const  classesServices = require('../services/classes.services');
+const  { createClass,allClasses } = require('../services/classes.services');
 
-const createClass = async (req,res) => {
+//Controlador para crear Clases
+const registerClass = async (req,res) => {
     try {
-        const newClass = await classesServices.createClass(req.body);
-        res.status(201).json({newClass})
+        const newClass = await createClass(req.body);
+        res.status(201).json(newClass)
         
     } catch (error) {
         console.log(error);
-        res.status(500).send(error);
+        res.status(500).send({error: error.message});
     }
 
 }
 
+//Controlador para mostrar todas las clases creadas
+const getAllClasses = async (req,res) => {
+    try {
+        const classes = await  allClasses();
+        res.status(200).json(classes)
+    } catch (error) {
+        console.log(error);
+        res.status(404).send({error: error.message})     
+    }
+}
+
 module.exports = {
-    createClass
+    registerClass,
+    getAllClasses,
 }
