@@ -37,7 +37,11 @@ const userSchema = new Schema({
   admin: {
     type: Boolean,
     default: false,
-  }
+  },
+  classes: {
+    type : Schema.Types.ObjectId,
+    ref : 'Classes',
+  },
 });
 
 module.exports = model('User', userSchema);
