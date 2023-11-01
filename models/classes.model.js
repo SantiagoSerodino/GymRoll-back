@@ -14,6 +14,11 @@ const classesSchema = new Schema ({
     hour: {
         type : String,
         required : true,
+        unique: false
+    },
+    teacher: {
+        type: Schema.Types.ObjectId,
+        ref: "Teachers"
     },
     users: [{
         type : Schema.Types.ObjectId,
