@@ -2,16 +2,18 @@ const {Schema, model} = require('mongoose');
 
 //esquema de Usuario
 const userSchema = new Schema({
- 
+    // se define userName de tipo Stryng  con condicion de requerido y usuario unico 
   userName: {
     type: String,
     required: true,
     unique: true,
   },
+     // se define password de tipo Stryng  con condicion de requerido 
   password: {
     type: String,
     required: true,
   },
+    // se define email de tipo Stryng  con condicion de requerido y usuario unico 
   email: {
     type: String,
     required: true,
