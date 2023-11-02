@@ -8,7 +8,7 @@ const teachersRoutes = require ('../routes/teacher.routes');
 //instanciando express
 const app = express();
 
-// Configura el registro de solicitudes utilizando Morgan en modo de desarrollo
+// registro de solicitudes utilizando Morgan 
 app.use(morgan('dev'));
 
 //MiddleWares
