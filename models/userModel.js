@@ -17,20 +17,23 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  
   email: {
     type: String,
     required: true,
     unique: true,
   },  
-  
+
   contractedPlan: {
     type: String,
     required: true,
   },
+
   admin: {
     type: Boolean,
     default: false,
   },
+
   classes: {
     type : Schema.Types.ObjectId,
     ref : 'Classes',
