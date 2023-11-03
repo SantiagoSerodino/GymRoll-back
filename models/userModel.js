@@ -20,7 +20,7 @@ const userSchema = new Schema({
     unique: true,
   },  
       // se define names de tipo String  con condicion de requerido 
-  names: {
+  name: {
     type: String,
     required: true,
   },
