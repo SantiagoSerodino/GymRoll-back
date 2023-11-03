@@ -6,7 +6,7 @@ const route = express();
 
 //Metodos HTTP
 route.post('/register', createUser);
-route.get('/', getAllUsers);
+route.get('/', jwtValidator, getAllUsers);
 
 
 module.exports = route;

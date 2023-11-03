@@ -41,7 +41,7 @@ if(classes) {
 };
 
 //Servicio para obtener el listado de usuarios 
-const getAllusersService = async ({ username, email, names, lastName, phoneNumber, contractedPlan, admin, classes, }) => {
+const getAllusersService = async ({ username, email, name, lastName, phoneNumber, contractedPlan, admin, }) => {
     let query = {}; 
   
     if (username) {
@@ -52,7 +52,7 @@ const getAllusersService = async ({ username, email, names, lastName, phoneNumbe
       query.email = email;
     }
 
-    if(names){
+    if(name){
         query.names = names
     }
 
