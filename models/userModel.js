@@ -19,28 +19,28 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },  
-   // nombres de tipo string requerido
-  name: {
+      // se define names de tipo String  con condicion de requerido 
+  names: {
     type: String,
     required: true,
   },
-  //apellido de tipo string requerido 
+    // se define lastName de tipo String  con condicion de requerido 
   lastName: {
     type: String,
     required: true,
   },
-  //numero de telefono de tipo number requerido
+     // se define phoneNumber de tipo Number  con condicion de requerido  
   phoneNumber: {
     type: Number,
     required: true,
     unique: true,
   },
-  // plan contratado 
+    // se define contractedPlan de tipo String  con condicion de requerido y usuario unico 
   contractedPlan: {
     type: String,
     required: true,
   },
-  // condicion de admin
+
   admin: {
     type: Boolean,
     default: false,
