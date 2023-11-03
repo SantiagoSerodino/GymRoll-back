@@ -4,9 +4,12 @@ const bcrypt = require('bcrypt');const bcrypt = require('bcrypt');
 
 // Servicio para crear usuarios con sus contraseñas encriptadas
 const createUserService = async ({
-  userName,
+  name,
+  lastName,
   password,
   email,
+  contractedPlan,
+  clases,
   admin,
 }) => {
   const saltRounds = 10;
@@ -14,11 +17,24 @@ const createUserService = async ({
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const newUser = await User.create({
-    userName,
+    name,
+    lastName,
     email,
     password: hashedPassword,
+    contractedPlan,
+    clases,
     admin,
   })
+
+//llamamos a nuestro modelo de clases
+const usersRel = await classesModel.findById(users);
+
+//Guardamos el id del usuario creado en la key de "users" en el modelo de clases asi se ve reflejado en la base de datos
+if(classes) {
+    usersRel.user=newUser._id;
+    await usersRel.save();
+}
+
 
   if (!newUser) throw new Error ('hubo un error al crear el usuario');
   return newUser;
