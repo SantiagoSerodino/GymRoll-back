@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
   }
 };
 
-
+// controlador para obtener el listado de todos los usuarios
   const getAllUsers = async (req, res) => {
     try {
       const users = await getAllusersService(req.headers);
