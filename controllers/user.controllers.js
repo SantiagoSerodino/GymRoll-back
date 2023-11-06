@@ -11,6 +11,16 @@ const createUser = async (req, res) => {
   }
 };
 
+// controlador para iniciar sesión
+const loginUser = async (req, res) => {
+  try {
+    const logedUser = await loginUserService(req.body);
+    res.status(201).json({ logedUser });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
 // controlador para obtener el listado de todos los usuarios
   const getAllUsers = async (req, res) => {
     try {
@@ -25,4 +35,5 @@ const createUser = async (req, res) => {
   module.exports = {
     createUser,
     getAllUsers,
+    loginUser,
   };

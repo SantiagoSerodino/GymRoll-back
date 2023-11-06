@@ -40,6 +40,24 @@ if(classes) {
   return newUser;
 };
 
+const loginUserService = async ({
+  email,
+  password,
+}) =>{
+  let userFounded;
+
+  if (email) {
+    userFounded = await User.findOne({ email })
+  }
+
+  if (!userFounded) throw new Error('Las credenciales no coinciden');
+
+  const passwordMatch = await bcrypt.compare(password, userFounded.password);
+
+  if (!passwordMatch) throw new Error('Las credenciales no coinciden')
+
+};
+
 //Servicio para obtener el listado de usuarios 
 const getAllusersService = async ({ username, email, name, lastName, phoneNumber, contractedPlan, admin, }) => {
     let query = {}; 
