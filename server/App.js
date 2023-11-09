@@ -19,7 +19,7 @@ app.use(express.json());
 const port = process.env.PORT;
 
 //Definiendo rutas
-app.use('user',userRoutes);
+app.use('/user',userRoutes);
 app.use('/classes', ClassesRoutes);
 app.use('/teachers', teachersRoutes);
 
