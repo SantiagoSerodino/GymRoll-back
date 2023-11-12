@@ -20,8 +20,8 @@ const createClass = async ({ name, teacher, date, hour, users}) => {
 const allClasses = async () => {
 
     const classes = await Classes.find().populate({
-        path: 'teacher',
-        select: 'name lastName'
+        path: 'teacher users',
+        select: 'name lastName email'
     });
 
     if(!classes) throw new Error('No se pudo obtener el listado de clases');

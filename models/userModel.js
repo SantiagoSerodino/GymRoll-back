@@ -2,23 +2,17 @@ const {Schema, model} = require('mongoose');
 
 //esquema de Usuario
 const userSchema = new Schema({
-  // usuario  de tipo string requerido y unico 
-  userName: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  // contraseña de tipo string requerida 
-  password: {
-    type: String,
-    required: true,
-  },
   // email de tipo string requerido
   email: {
     type: String,
     required: true,
     unique: true,
   },  
+  // contraseña de tipo string requerida 
+  password: {
+    type: String,
+    required: true,
+  },
       // se define names de tipo String  con condicion de requerido 
   name: {
     type: String,
@@ -35,10 +29,10 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-    // se define contractedPlan de tipo String  con condicion de requerido y usuario unico 
+    // se define contractedPlan de tipo String con condicion de no requerido 
   contractedPlan: {
     type: String,
-    required: true,
+    required: false
   },
 
   admin: {
@@ -52,4 +46,4 @@ const userSchema = new Schema({
   },
 });
 
-module.exports = model('User', userSchema);
+module.exports = model('User', userSchema, 'Users');

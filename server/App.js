@@ -1,5 +1,6 @@
 const express = require ('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const {connection} = require ('../db/connect');
 const userRoutes = require ('../routes/user.routes');
 const ClassesRoutes = require ('../routes/classes.routes');
@@ -15,11 +16,13 @@ app.use(morgan('dev'));
 require('dotenv').config();
 app.use(express.json());
 
+app.use(cors());
+
 //Definiendo puerto
 const port = process.env.PORT;
 
 //Definiendo rutas
-app.use('user',userRoutes);
+app.use('/user',userRoutes);
 app.use('/classes', ClassesRoutes);
 app.use('/teachers', teachersRoutes);
 
