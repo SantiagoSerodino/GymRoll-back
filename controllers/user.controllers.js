@@ -1,11 +1,21 @@
 
-const { createUserService, getAllusersService,userModified } = require('../services/user.services');
+const { createUserService, getAllusersService, userModified, loginUserService } = require('../services/user.services');
 
 //Controlador para crear un usuario
 const createUser = async (req, res) => {
   try {
     const newUser = await createUserService(req.body);
     res.status(201).json({ newUser });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+// Controlador para iniciar sesion
+const loginUser = async (req, res) => {
+  try {
+    const logedUser = await loginUserService(req.body);
+    res.status(201).json({ logedUser });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -36,5 +46,6 @@ const editUser = async (req,res) => {
 module.exports = {
   createUser,
   getAllUsers,
-  editUser
+  editUser,
+  loginUser
 };

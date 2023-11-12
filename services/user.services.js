@@ -2,6 +2,7 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const classesModel = require ('../models/classes.model')
+const jwt = require('jsonwebtoken')
 
 // Servicio para crear usuarios con sus contraseñas encriptadas
 const createUserService = async ({
@@ -40,6 +41,42 @@ const createUserService = async ({
 
   if (!newUser) throw new Error ('hubo un error al crear el usuario');
   return newUser;
+};
+
+//Servicio para iniciar sesion y validacion
+const loginUserService = async ({
+  email,
+  password,
+}) =>{
+  let userFounded;
+  const secretKey = process.env.SECRET_KEY;
+
+  if (email) {
+    userFounded = await User.findOne({ email })
+  }
+
+  if (!userFounded) throw new Error('Las credenciales no coinciden');
+
+  const passwordMatch = await bcrypt.compare(password, userFounded.password);
+
+  if (!passwordMatch) throw new Error('Las credenciales no coinciden');
+  
+  const userWhitoutPassword = userFounded._doc;
+  delete userWhitoutPassword.password
+
+  const payload = {
+    userWhitoutPassword,
+  }
+
+  const token = jwt.sign(payload, secretKey, { 
+    expiresIn: '1h' 
+  });
+
+  return {
+    token,
+    userWhitoutPassword
+  };
+
 };
 
 //Servicio para obtener el listado de usuarios 
