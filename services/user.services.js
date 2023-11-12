@@ -40,6 +40,7 @@ if(classes) {
   return newUser;
 };
 
+//Servicio para iniciar sesion y validacion
 const loginUserService = async ({
   email,
   password,
@@ -54,8 +55,10 @@ const loginUserService = async ({
 
   const passwordMatch = await bcrypt.compare(password, userFounded.password);
 
-  if (!passwordMatch) throw new Error('Las credenciales no coinciden')
-
+  if (!passwordMatch) throw new Error('Las credenciales no coinciden');
+  
+  const userWhitoutPassword = userFounded._doc;
+  delete userWhitoutPassword.password
 };
 
 //Servicio para obtener el listado de usuarios 
