@@ -10,10 +10,10 @@ const createClass = async ({ name, teacher, date, hour, users}) => {
         hour
     });
 
-    //maneja errores de almacenamiento
+    //Maneja errores de almacenamiento
     if (!newClass) throw new Error('No se pudo crear la clase');
 
-    //retorna la clase creada
+    //Retorna la clase creada
     return newClass;
 };
 
@@ -29,12 +29,12 @@ const allClasses = async () => {
       //Develve un error si es que no se pudo traer la lista de las clases
     if(!classes) throw new Error('No se pudo obtener el listado de clases');
 
-    //retorna la clase creada
+    //Retorna la clase creada
     return classes;
 }
 
 //Servicio para modificar una clase ya creada
-const modifyClass = async ({name,teacher}) => {
+const modifyClass = async ({name,hour,date,teacher}) => {
     //Edicion sin filtros
     let query = {}
     //Edicion con filtros
@@ -62,10 +62,10 @@ const removingClass = async ({name}) => {
     //Elimina la clase que sea igual al nombre ingresado
     const removedClass = await Classes.deleteOne ({name : name});
     
-    //devuelve un error si es que no se pudo elimianr la clase
+    //Devuelve un error si es que no se pudo elimianr la clase
     if(!removedClass) throw new Error( 'No se pudo eliminar la clase')
 
-    //retorna la clase eliminada
+    //Retorna la clase eliminada
     return removedClass
 };
 
