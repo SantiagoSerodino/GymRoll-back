@@ -1,5 +1,5 @@
 
-const { createUserService, getAllusersService, userModified, loginUserService } = require('../services/user.services');
+const { createUserService, getAllusersService, userModified, loginUserService, deletingUsers } = require('../services/user.services');
 
 //Controlador para crear un usuario
 const createUser = async (req, res) => {
@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const logedUser = await loginUserService(req.body);
-    res.status(201).json({ logedUser });
+    res.status(200).json({ logedUser });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -25,10 +25,10 @@ const loginUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const users = await getAllusersService(req.headers);
-    res.status(201).json( {users} );
+    res.status(200).json( {users} );
   } catch (error) {
     console.log(error)
-    res.status(501).json({ error });
+    res.status(500).json({ error });
   }
 };
 
@@ -36,10 +36,22 @@ const getAllUsers = async (req, res) => {
 const editUser = async (req,res) => {
   try {
     const userEdited= await userModified(req.body);
-    res.status(201).json({userEdited})    
+    res.status(200).json({userEdited})    
   } catch (error) {
     console.log(error);
-    res.status(500).json({error: error.message})    
+    res.status(304).json({error: error.message});    
+  }
+}
+
+//Controlador para eliminar un usuario
+const deleteUser = async (req,res) => {
+  try {
+    const userDeleted= await deletingUsers(req.body);
+    res.status(200).json({userDeleted});
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error: error.message});
   }
 }
 
@@ -47,5 +59,6 @@ module.exports = {
   createUser,
   getAllUsers,
   editUser,
-  loginUser
+  loginUser,
+  deleteUser
 };

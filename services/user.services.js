@@ -15,10 +15,11 @@ const createUserService = async ({
   classes,
   admin,
 }) => {
+  //Encriptar contraseñas
   const saltRounds = 10;
-
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+  //Se instancia la estructura del modelo de usuario
   const newUser = await User.create({
     email,
     password: hashedPassword,
@@ -29,7 +30,7 @@ const createUserService = async ({
     classes
   })
 
-  //llamamos a nuestro modelo de clases
+  //Llamamos a nuestro modelo de clases
   const usersRel = await classesModel.findById(classes);
 
   //Guardamos el id del usuario creado en la key de "users" en el modelo de clases asi se ve reflejado en la base de datos
@@ -38,7 +39,7 @@ const createUserService = async ({
     await usersRel.save();
   }
 
-
+  //Linea para manejar errores y devolver el usuario al contralador en caso de que no lo haya
   if (!newUser) throw new Error ('hubo un error al crear el usuario');
   return newUser;
 };
@@ -166,10 +167,22 @@ const userModified = async ({email,password,classes,contractedPlan}) => {
   return userModify
 }
 
+//Servicio para eliminar un usuario
+const deletingUsers = async ({_id}) =>{
+
+  //Realiza la busqueda por el ID y luego lo elimina
+  const selectUser = await User.findByIdAndDelete(_id);
+
+  //Maneja los errores y retorna los usuarios con el elemento eliminado si es que no los hay
+  if(!selectUser) throw new Error ('No se pudo eliminar el Usuario');
+  return selectUser
+}
+
 
   module.exports = {
     createUserService,
     getAllusersService,
     userModified,
-    loginUserService
+    loginUserService,
+    deletingUsers
   };
