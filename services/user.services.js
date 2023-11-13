@@ -1,8 +1,8 @@
 //Importamos modulos necesarios
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-const classesModel = require ('../models/classes.model')
-const jwt = require('jsonwebtoken')
+const classesModel = require ('../models/classes.model');
+const jwt = require('jsonwebtoken');
 
 // Servicio para crear usuarios con sus contraseñas encriptadas
 const createUserService = async ({
@@ -134,7 +134,7 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
 }
 
 //Servicio para editar un usuario
-const userModified = async ({email,password,classes,contractedPlan,_id}) => {
+const userModified = async ({email,password,classes,contractedPlan}) => {
   let query = {}
 
   if(password){
@@ -151,15 +151,17 @@ const userModified = async ({email,password,classes,contractedPlan,_id}) => {
     query.contractedPlan = contractedPlan
   }
 
-  const userModify = User.findOneAndUpdate ({email:email},query);
+  //Busca y comprara el email ingresado y luego de encontrarlo lo actualiza con el resto de datos ingresados
+  const userModify = await User.findOneAndUpdate ({email:email},query);
   
-  //llamamos a nuestro modelo de clases
+  //Llamamos a nuestro modelo de clases
   const usersRel = await classesModel.findById(classes);
   
   //Guardamos el id del usuario editado en la key de "users" en el modelo de clases asi se ve reflejado en la base de datos
   usersRel.users.push(userModify._id);
-  await usersRel.save()
+  await usersRel.save();
 
+  //Maneja los errores y retorna el usuario modificado si es que no los hay
   if(!userModify) throw new Error ('No se pudo modificar el Usuario');
   return userModify
 }
@@ -168,5 +170,6 @@ const userModified = async ({email,password,classes,contractedPlan,_id}) => {
   module.exports = {
     createUserService,
     getAllusersService,
-    userModified
+    userModified,
+    loginUserService
   };
