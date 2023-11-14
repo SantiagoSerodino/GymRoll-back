@@ -27,7 +27,8 @@ const createUserService = async ({
     lastName,
     phoneNumber,
     contractedPlan,
-    classes
+    classes,
+    admin
   })
 
   //Llamamos a nuestro modelo de clases
@@ -179,10 +180,10 @@ const deletingUsers = async ({_id}) =>{
 }
 
 
-  module.exports = {
-    createUserService,
-    getAllusersService,
-    userModified,
-    loginUserService,
-    deletingUsers
-  };
+module.exports = {
+  createUserService,
+  getAllusersService,
+  userModified,
+  loginUserService,
+  deletingUsers
+};

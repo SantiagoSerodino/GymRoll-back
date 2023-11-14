@@ -1,6 +1,6 @@
 const express = require('express');
 const { createUser, getAllUsers, editUser, loginUser, deleteUser } = require('../controllers/user.controllers');
-const jwtValidator = require('../middleware/jwtValidation')
+const {jwtValidator} = require('../middleware/jwtValidation')
 
 //Instanciando express
 const route = express();
