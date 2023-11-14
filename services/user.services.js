@@ -86,7 +86,7 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
   //Consulta sin filtros
   let query = {}; 
 
-  //Consultas con filtros
+  //Consultas con filtros por cada detalle
   if (username) {
     query.userName = username;
   }
