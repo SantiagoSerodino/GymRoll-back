@@ -9,7 +9,7 @@ const route = express();
 //Metodos HTTP
 route.post('/register', createUser);
 route.post('/login', loginUser);
-// obtencion  todos los usuarios (utiliza  validación de JWT)
+// obtencion  todos los usuarios (utiliza  validación de JWT y admin)
 route.get('/', [jwtValidator, adminValidator], getAllUsers);
 route.patch ('/', editUser);
 route.delete('/',deleteUser);

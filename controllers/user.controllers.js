@@ -21,7 +21,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-//Controlador para obtener el listado de todos los usuarios
+//Controlador para obtener en pagina admin el listado de todos los usuarios
 const getAllUsers = async (req, res) => {
   try {
     const users = await getAllusersService(req.headers);
