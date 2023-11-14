@@ -168,5 +168,5 @@ const userModified = async ({email,password,classes,contractedPlan,_id}) => {
   module.exports = {
     createUserService,
     getAllusersService,
-    userModified
+    userModified,
   };
