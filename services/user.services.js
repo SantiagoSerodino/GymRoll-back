@@ -183,9 +183,6 @@ const deletingUsers = async ({_id}) =>{
     createUserService,
     getAllusersService,
     userModified,
-<<<<<<< HEAD
-=======
     loginUserService,
     deletingUsers
->>>>>>> 47bc437ae8a6395be85d7bc1b7977b3810c36846
   };
