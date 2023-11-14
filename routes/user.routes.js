@@ -1,5 +1,6 @@
 const express = require('express');
 const { createUser, getAllUsers, editUser, loginUser, deleteUser } = require('../controllers/user.controllers');
+const jwtValidation = requiere('../middleware/jwtValidation')
 
 //Instanciando express
 const route = express();
@@ -8,7 +9,7 @@ const route = express();
 route.post('/register', createUser);
 route.post('/login', loginUser);
 // obtencion  todos los usuarios (utiliza  validación de JWT)
-route.get('/', getAllUsers);
+route.get('/', jwtValidation, getAllUsers);
 route.patch ('/', editUser);
 route.delete('/',deleteUser);
 
