@@ -10,47 +10,62 @@ const createClass = async ({ name, teacher, date, hour, users}) => {
         hour
     });
 
-    //maneja errores de almacenamiento
+    //Maneja errores de almacenamiento
     if (!newClass) throw new Error('No se pudo crear la clase');
 
-    //retorna la clase creada
+    //Retorna la clase creada
     return newClass;
 };
 
+//Servicio para obtener todas las clases
 const allClasses = async () => {
-
+    
+    //Busca y muestra todas las clases y su relacion con los usuarios y con los profesores cada uno con sus respectivos datos  utilizando el método populate
     const classes = await Classes.find().populate({
         path: 'teacher users',
         select: 'name lastName email'
     });
 
+      //Develve un error si es que no se pudo traer la lista de las clases
     if(!classes) throw new Error('No se pudo obtener el listado de clases');
 
-    //retorna la clase creada
+    //Retorna la clase creada
     return classes;
 }
 
 //Servicio para modificar una clase ya creada
-const modifyClass = async ({name,teacher}) => {
+const modifyClass = async ({name,hour,date,teacher}) => {
+    //Edicion sin filtros
+    let query = {}
+    //Edicion con filtros
+    if(name){
+        query.name = name;
+    }
+    if(date){
+        query.date = date;
+    }
+    if(hour){
+        query.hour = hour;
+    }
+    //Busca la clase ingresada la compara y luedo la actualiza con el resto de datos ingresados
+    const searchClass = await Classes.findOneAndUpdate({name:name},query);
 
-    const searchClass = await Classes.findOneAndUpdate({name:name},{teacher:teacher});
+    //Develve un error si es que no se pudo modificar la clase
+    if(!searchClass) throw new Error('No se pudo editar la clase');
 
-    //develve un error si es que no se pudo modificar la clase
-    if(!searchClass) throw new Error('No se pudo crear la clase');
-
-    //retorna la clases modificada
+    //Retorna la clases modificada
     return searchClass;
 
 };
 
 const removingClass = async ({name}) => {
-
+    //Elimina la clase que sea igual al nombre ingresado
     const removedClass = await Classes.deleteOne ({name : name});
     
-    //devuelve un error si es que no se pudo elimianr la clase
+    //Devuelve un error si es que no se pudo elimianr la clase
     if(!removedClass) throw new Error( 'No se pudo eliminar la clase')
 
-    //retorna la clase eliminada
+    //Retorna la clase eliminada
     return removedClass
 };
 

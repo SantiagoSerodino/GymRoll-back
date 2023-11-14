@@ -13,33 +13,34 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-      // se define names de tipo String  con condicion de requerido 
+  // se define names de tipo String  con condicion de requerido 
   name: {
     type: String,
     required: true,
   },
-    // se define lastName de tipo String  con condicion de requerido 
+  // se define lastName de tipo String  con condicion de requerido 
   lastName: {
     type: String,
     required: true,
   },
-     // se define phoneNumber de tipo Number  con condicion de requerido  
+  // se define phoneNumber de tipo Number  con condicion de requerido  
   phoneNumber: {
     type: Number,
     required: true,
     unique: true,
   },
-    // se define contractedPlan de tipo String con condicion de no requerido 
+  // se define contractedPlan de tipo String con condicion de no requerido 
   contractedPlan: {
     type: String,
     required: false
   },
 
+  //se define admin como tipo false como predefinido
   admin: {
     type: Boolean,
     default: false,
   },
-// 
+  //Se define la relacion entre clases y usuarios  
   classes: {
     type : Schema.Types.ObjectId,
     ref : 'Classes',

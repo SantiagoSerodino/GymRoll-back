@@ -1,8 +1,8 @@
 //Importamos modulos necesarios
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-const classesModel = require ('../models/classes.model')
-const jwt = require('jsonwebtoken')
+const classesModel = require ('../models/classes.model');
+const jwt = require('jsonwebtoken');
 
 // Servicio para crear usuarios con sus contraseñas encriptadas
 const createUserService = async ({
@@ -15,10 +15,11 @@ const createUserService = async ({
   classes,
   admin,
 }) => {
+  //Encriptar contraseñas
   const saltRounds = 10;
-
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+  //Se instancia la estructura del modelo de usuario
   const newUser = await User.create({
     email,
     password: hashedPassword,
@@ -29,7 +30,7 @@ const createUserService = async ({
     classes
   })
 
-  //llamamos a nuestro modelo de clases
+  //Llamamos a nuestro modelo de clases
   const usersRel = await classesModel.findById(classes);
 
   //Guardamos el id del usuario creado en la key de "users" en el modelo de clases asi se ve reflejado en la base de datos
@@ -38,7 +39,7 @@ const createUserService = async ({
     await usersRel.save();
   }
 
-
+  //Linea para manejar errores y devolver el usuario al contralador en caso de que no lo haya
   if (!newUser) throw new Error ('hubo un error al crear el usuario');
   return newUser;
 };
@@ -134,7 +135,7 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
 }
 
 //Servicio para editar un usuario
-const userModified = async ({email,password,classes,contractedPlan,_id}) => {
+const userModified = async ({email,password,classes,contractedPlan}) => {
   let query = {}
 
   if(password){
@@ -151,17 +152,30 @@ const userModified = async ({email,password,classes,contractedPlan,_id}) => {
     query.contractedPlan = contractedPlan
   }
 
-  const userModify = User.findOneAndUpdate ({email:email},query);
+  //Busca y comprara el email ingresado y luego de encontrarlo lo actualiza con el resto de datos ingresados
+  const userModify = await User.findOneAndUpdate ({email:email},query);
   
-  //llamamos a nuestro modelo de clases
+  //Llamamos a nuestro modelo de clases
   const usersRel = await classesModel.findById(classes);
   
   //Guardamos el id del usuario editado en la key de "users" en el modelo de clases asi se ve reflejado en la base de datos
   usersRel.users.push(userModify._id);
-  await usersRel.save()
+  await usersRel.save();
 
+  //Maneja los errores y retorna el usuario modificado si es que no los hay
   if(!userModify) throw new Error ('No se pudo modificar el Usuario');
   return userModify
+}
+
+//Servicio para eliminar un usuario
+const deletingUsers = async ({_id}) =>{
+
+  //Realiza la busqueda por el ID y luego lo elimina
+  const selectUser = await User.findByIdAndDelete(_id);
+
+  //Maneja los errores y retorna los usuarios con el elemento eliminado si es que no los hay
+  if(!selectUser) throw new Error ('No se pudo eliminar el Usuario');
+  return selectUser
 }
 
 
@@ -169,4 +183,9 @@ const userModified = async ({email,password,classes,contractedPlan,_id}) => {
     createUserService,
     getAllusersService,
     userModified,
+<<<<<<< HEAD
+=======
+    loginUserService,
+    deletingUsers
+>>>>>>> 47bc437ae8a6395be85d7bc1b7977b3810c36846
   };

@@ -10,7 +10,7 @@ const classesSchema = new Schema ({
     },
     //Se define "date" de tipo string y que es requerido
     date: {
-        type  :String,
+        type : String,
         required : true
     },
     //Se define "hour" de tipo string y que es requerido
