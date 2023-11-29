@@ -82,57 +82,58 @@ const loginUserService = async ({
 };
 
 //Servicio para obtener el listado de usuarios 
-const getAllusersService = async ({ username, email, name, lastName, phoneNumber, contractedPlan,classes, admin, users }) => {
-  //Consulta sin filtros
-  let query = {}; 
+const getAllusersService = async ({ username, email, name, lastName, phoneNumber, contractedPlan, classes, admin, users }) => {
+    //Consulta sin filtros
+    let query = {}; 
 
-  //Consultas con filtros por cada detalle
-  if (username) {
-    query.userName = username;
-  }
-  
-  if (email) {
-    query.email = email;
-  }
+    //Consultas con filtros por cada detalle
+    if (username) {
+      query.userName = username;
+    }
+    
+    if (email) {
+      query.email = email ;
+    }
 
-  if(name){
-    query.names = name;
-  }
+    if(name){
+      query.names = name ;
+    }
 
-  if(lastName){
-    query.lastName = lastName;
-  }
+    if(lastName){
+      query.lastName = lastName ;
+    }
 
-  if(phoneNumber){
-   query.phoneNumber = phoneNumber;
-  }
+    if(phoneNumber){
+      query.phoneNumber = phoneNumber ;
+    }
 
-  if(contractedPlan){
-    query.contractedPlan = contractedPlan;
-  }
+    if(contractedPlan){
+      query.contractedPlan = contractedPlan;
+    }
 
-  if(users){
-    query.users = [users]
-  }
+    if(users){
+      query.users = [users]
+    }
 
-  if(classes){
-    query.classes = classes;
-  }
-  
-  if (admin !== undefined) {
-    query.admin = admin;
-  }
-  //Hace la consulta con los filtros o sin ellos y muestra los datos especificados de la relacion con classes 
-  const usersList = await User.find(query).populate({
-    path: 'classes',
-    select: 'name date hour' 
-  });
-  //Maneja los errores y retorna los usuarios si es que no los hay
-  if (!usersList) {
-    throw new Error('usuarios no encontrados');
-  }
-  return usersList;
-  
+    if(classes){
+      query.classes = classes;
+    }
+    
+    if (admin !== undefined) {
+      query.admin = admin;
+    }
+    //Hace la consulta con los filtros o sin ellos y muestra los datos especificados de la relacion con classes 
+    const usersList = await User.find(query).populate({
+      path: 'classes',
+      select: 'name date hour' 
+    });
+    //Maneja los errores y retorna los usuarios si es que no los hay
+    if (!usersList) {
+      throw new Error('usuarios no encontrados');
+    }
+
+    return usersList;
+    
 }
 
 //Servicio para editar un usuario
