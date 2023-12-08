@@ -6,12 +6,12 @@ const {jwtValidator} = require('../middleware/jwtValidation')
 const route = express();
 
 //Metodos HTTP
-route.post('/register', createUser);
-route.post('/login', loginUser);
+route.post ('/register', createUser);
+route.post ('/login', loginUser);
 // obtencion  todos los usuarios (utiliza  validación de JWT)
-route.get('/', jwtValidator, getAllUsers);
-route.patch ('/', editUser);
-route.delete('/',deleteUser);
+route.get ('/', jwtValidator, getAllUsers);
+route.patch ('/:id', editUser);
+route.delete('/:id',deleteUser);
 
-
+//Exportamos route
 module.exports = route;

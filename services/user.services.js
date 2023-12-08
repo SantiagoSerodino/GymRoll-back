@@ -136,7 +136,7 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
 }
 
 //Servicio para editar un usuario
-const userModified = async ({email,password,classes,contractedPlan}) => {
+const userModified = async ({password,classes,contractedPlan},{id}) => {
   let query = {}
 
   if(password){
@@ -154,7 +154,7 @@ const userModified = async ({email,password,classes,contractedPlan}) => {
   }
 
   //Busca y comprara el email ingresado y luego de encontrarlo lo actualiza con el resto de datos ingresados
-  const userModify = await User.findOneAndUpdate ({email:email},query);
+  const userModify = await User.findByIdAndUpdate (id,query);
   
   //Llamamos a nuestro modelo de clases
   const usersRel = await classesModel.findById(classes);
@@ -169,10 +169,10 @@ const userModified = async ({email,password,classes,contractedPlan}) => {
 }
 
 //Servicio para eliminar un usuario
-const deletingUsers = async ({_id}) =>{
+const deletingUsers = async ({id}) =>{
 
   //Realiza la busqueda por el ID y luego lo elimina
-  const selectUser = await User.findByIdAndDelete(_id);
+  const selectUser = await User.findByIdAndDelete(id);
 
   //Maneja los errores y retorna los usuarios con el elemento eliminado si es que no los hay
   if(!selectUser) throw new Error ('No se pudo eliminar el Usuario');
