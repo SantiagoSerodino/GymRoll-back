@@ -29,7 +29,7 @@ const createUserService = async ({
     contractedPlan,
     classes,
     admin
-  })
+  });
 
   //Llamamos a nuestro modelo de clases
   const usersRel = await classesModel.findById(classes);
@@ -38,7 +38,7 @@ const createUserService = async ({
   if(classes) {
     usersRel.users.push(newUser._id);
     await usersRel.save();
-  }
+  };
 
   //Linea para manejar errores y devolver el usuario al contralador en caso de que no lo haya
   if (!newUser) throw new Error ('hubo un error al crear el usuario');
@@ -82,15 +82,15 @@ const loginUserService = async ({
 };
 
 //Servicio para obtener el listado de usuarios 
-const getAllusersService = async ({ username, email, name, lastName, phoneNumber, contractedPlan,classes, admin, users }) => {
+const getAllusersService = async ({ username, email, name, lastName, phoneNumber, contractedPlan, classes, admin, users }) => {
   //Consulta sin filtros
   let query = {}; 
 
-  //Consultas con filtros
+  //Consultas con filtros por cada detalle
   if (username) {
     query.userName = username;
   }
-  
+    
   if (email) {
     query.email = email;
   }
@@ -104,24 +104,25 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
   }
 
   if(phoneNumber){
-   query.phoneNumber = phoneNumber;
-  }
+    query.phoneNumber = phoneNumber;
+  } 
 
   if(contractedPlan){
     query.contractedPlan = contractedPlan;
   }
 
   if(users){
-    query.users = [users]
+    query.users = [users];
   }
 
   if(classes){
     query.classes = classes;
   }
-  
+    
   if (admin !== undefined) {
     query.admin = admin;
   }
+
   //Hace la consulta con los filtros o sin ellos y muestra los datos especificados de la relacion con classes 
   const usersList = await User.find(query).populate({
     path: 'classes',
@@ -130,10 +131,11 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
   //Maneja los errores y retorna los usuarios si es que no los hay
   if (!usersList) {
     throw new Error('usuarios no encontrados');
-  }
+  };
+
   return usersList;
-  
-}
+    
+};
 
 //Servicio para editar un usuario
 const userModified = async ({password,classes,contractedPlan},{id}) => {
@@ -150,7 +152,7 @@ const userModified = async ({password,classes,contractedPlan},{id}) => {
   }
 
   if(contractedPlan){
-    query.contractedPlan = contractedPlan
+    query.contractedPlan = contractedPlan;
   }
 
   //Busca y comprara el email ingresado y luego de encontrarlo lo actualiza con el resto de datos ingresados
@@ -166,7 +168,7 @@ const userModified = async ({password,classes,contractedPlan},{id}) => {
   //Maneja los errores y retorna el usuario modificado si es que no los hay
   if(!userModify) throw new Error ('No se pudo modificar el Usuario');
   return userModify
-}
+};
 
 //Servicio para eliminar un usuario
 const deletingUsers = async ({id}) =>{
@@ -177,7 +179,7 @@ const deletingUsers = async ({id}) =>{
   //Maneja los errores y retorna los usuarios con el elemento eliminado si es que no los hay
   if(!selectUser) throw new Error ('No se pudo eliminar el Usuario');
   return selectUser
-}
+};
 
 
 module.exports = {
