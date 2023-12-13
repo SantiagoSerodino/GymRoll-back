@@ -1,6 +1,6 @@
-const { createClass, modifyClass, allClasses,removingClass } = require('../services/classes.services');
+const { createClass, modifyClass, allClasses,removingClass } = require('../services/classes.services')
 
-//Controlador para crear Clases
+// Controlador para crear Clases
 const registerClass = async (req, res) => {
     try {
         const newClass = await createClass(req.body);
@@ -10,21 +10,20 @@ const registerClass = async (req, res) => {
         console.log(error);
         res.status(500).send({ error: error.message });
     }
-
 };
 
-//Controlador para mostrar todas las clases creadas
+// Controlador para mostrar todas las clases creadas
 const getAllClasses = async (req, res) => {
     try {
         const classes = await allClasses();
-        res.status(200).json(classes)
+        res.status(200).json(classes);
     } catch (error) {
         console.log(error);
-        res.status(404).send({ error: error.message })
+        res.status(404).send({ error: error.message });
     }
 };
 
-//Controlador para editar las clases creadas
+// Controlador para editar las clases creadas
 const editClass = async (req, res) => {
     try {
         const editedClass = await modifyClass(req.body);
@@ -36,7 +35,7 @@ const editClass = async (req, res) => {
     }
 };
 
-//Controlador para eliminar una clase
+// Controlador para eliminar una clase
 const deleteClass = async (req, res) => {
     try {
         const deletedClass = await removingClass(req.body);
@@ -47,7 +46,7 @@ const deleteClass = async (req, res) => {
         res.status(304).send({ error: error.message });
 
     }
-}
+};
 
 module.exports = {
     registerClass,
