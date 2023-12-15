@@ -155,7 +155,7 @@ const userModified = async ({password,classes,contractedPlan},{id}) => {
     query.contractedPlan = contractedPlan;
   }
 
-  //Busca y comprara el email ingresado y luego de encontrarlo lo actualiza con el resto de datos ingresados
+  //Busca el usuario por el ID ingresado y luego de encontrarlo lo actualiza con el resto de datos ingresados
   const userModify = await User.findByIdAndUpdate (id,query);
   
   //Llamamos a nuestro modelo de clases

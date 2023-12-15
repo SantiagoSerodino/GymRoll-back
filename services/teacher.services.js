@@ -67,7 +67,7 @@ const modifyTeacher = async ({ user, password, classes },{id}) => {
 };
 
 //servicio para eliminar un profesor
-const removingTeacher = async ({id}) => {
+const removingTeacher = async ({ id }) => {
     const teachers = await Teachers.findById (id);
     const classes = teachers.classes
 
@@ -91,7 +91,7 @@ const removingTeacher = async ({id}) => {
 };
 
 //servicio para añadir mas de una clase a un profesor
-const addClass = async ({classes},{id}) => {
+const addClass = async ({ classes }, { id }) => {
     const classAdded = await Teachers.findOne(id);
     classAdded.classes.push(classes);
     await classAdded.save();

@@ -11,23 +11,23 @@ const userSchema = new Schema({
     // contraseña de tipo string requerida 
     password: {
       type: String,
-      required: true,
+      required: true
     },
     // se define names de tipo String  con condicion de requerido 
     name: {
       type: String,
-      required: true,
+      required: true
     },
     // se define lastName de tipo String  con condicion de requerido 
     lastName: {
       type: String,
-      required: true,
+      required: true
     },
     // se define phoneNumber de tipo Number  con condicion de requerido  
     phoneNumber: {
       type: Number,
       required: true,
-      unique: true,
+      unique: true
     },
     // se define contractedPlan de tipo String con condicion de no requerido 
     contractedPlan: {
@@ -38,12 +38,12 @@ const userSchema = new Schema({
     //se define admin como tipo false como predefinido
     admin: {
       type: Boolean,
-      default: false,
+      default: false
     },
     //Se define la relacion entre clases y usuarios  
     classes: {
       type : Schema.Types.ObjectId,
-      ref : 'Classes',
+      ref : 'Classes'
     },
 });
 
