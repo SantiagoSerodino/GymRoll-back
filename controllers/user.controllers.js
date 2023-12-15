@@ -4,8 +4,8 @@ const { createUserService, getAllusersService, userModified, loginUserService, d
 //Controlador para crear un usuario
 const createUser = async (req, res) => {
   try {
-    const newUser = await createUserService(req.body);
-    res.status(201).json({ newUser });
+    await createUserService(req.body);
+    res.status(201).json("Usuario creado con éxito");
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -35,8 +35,8 @@ const getAllUsers = async (req, res) => {
 //Controlador para editar un usuario
 const editUser = async (req,res) => {
   try {
-    const userEdited= await userModified(req.body);
-    res.status(200).json({userEdited})    
+    await userModified(req.body,req.params);
+    res.status(200).send('Usuario actualizado con éxito')    
   } catch (error) {
     console.log(error);
     res.status(304).json({error: error.message});    
@@ -46,8 +46,8 @@ const editUser = async (req,res) => {
 //Controlador para eliminar un usuario
 const deleteUser = async (req,res) => {
   try {
-    const userDeleted= await deletingUsers(req.body);
-    res.status(200).json({userDeleted});
+    await deletingUsers(req.params);
+    res.status(200).send('Usuario eliminado con éxito');
     
   } catch (error) {
     console.log(error);

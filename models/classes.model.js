@@ -6,34 +6,34 @@ const classesSchema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     // Se define "date" de tipo string y que es requerido
     date: {
         type: String,
-        required: true,
+        required: true
     },
     // Se define "hour" de tipo string y que es requerido
     hour: {
         type: String,
         required: true,
-        unique: false,
+        unique: false
+    },
+    // se define "image" de tipo string y que no es requerido
+    image: {
+        type: String,
+        required: false
     },
     // Se define la relación entre "classes" y "teachers"
     teacher: {
         type: Schema.Types.ObjectId,
-        ref: "Teachers",
+        ref: "Teachers"
     },
     // Se define la relación de "classes" y "users"
     users: [{
         type: Schema.Types.ObjectId,
-        ref: "User",
-    }],
-    // se define la relacion entre "clases" y "image"
-    image: {
-        type: String,
-        required: false,
-    },
+        ref: "User"
+    }]
 });
 
 module.exports = model('Classes', classesSchema, 'Classes');

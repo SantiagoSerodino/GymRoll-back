@@ -7,7 +7,7 @@ const adminValidator = async (req, res, next) => {
 
   data = jwt.verify(token, secretKey);
 
-  if(data.admin){
+  if(data.role != 'admin'){
     return res.status(401).json({
       msge:"The user is not an admin"
     });

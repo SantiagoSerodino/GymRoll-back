@@ -7,12 +7,12 @@ const {adminValidator} = require('../middleware/adminValidator')
 const route = express();
 
 //Metodos HTTP
-route.post('/register', createUser);
-route.post('/login', loginUser);
-// obtencion  todos los usuarios (utiliza  validación de JWT y admin)
+route.post ('/register', createUser);
+route.post ('/login', loginUser);
+// obtencion  todos los usuarios (utiliza  validación de JWT)
 route.get('/', [jwtValidator, adminValidator], getAllUsers);
-route.patch ('/', editUser);
-route.delete('/',deleteUser);
+route.patch ('/:id', editUser);
+route.delete('/:id',deleteUser);
 
-
+//Exportamos route
 module.exports = route;

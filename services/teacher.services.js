@@ -10,7 +10,7 @@ const encryptPassword = async (password) => {
 };
 
 //Servicio para crear un profesor
-const createTeacher = async ({ user, password, name, lastName, classes }) => {
+const createTeacher = async ({ user, password, name, lastName, idClasses }) => {
 
     const passwordHashed = await encryptPassword(password);
 
@@ -19,14 +19,14 @@ const createTeacher = async ({ user, password, name, lastName, classes }) => {
         password: passwordHashed,
         name,
         lastName,
-        classes
+        classes : idClasses
     });
 
     //llamamos a nuestro modelo de clases
-    const classesRel = await classesModel.findById(classes);
+    const classesRel = await classesModel.findById(idClasses);
 
     //Guardamos el id del profesor creado en la key de "teacher" en el modelo de clases asi se ve reflejado en la base de datos
-    if(classes) {
+    if(idClasses) {
         classesRel.teacher=newTeacher._id;
         await classesRel.save();
     }
@@ -51,14 +51,14 @@ const teachersList = async () => {
 };
 
 //Servicio para modificar un profesor
-const modifyTeacher = async ({ user, password, classes }) => {
+const modifyTeacher = async ({ user, password, classes },{id}) => {
     
     //Encriptamos la contraseña con nuestra funcion encryptPassword
     const passwordHashed = await encryptPassword(password);
 
 
     //buscamos el usuario por el usuario y lo editamos con la informacion ingresada
-    const teacher = await Teachers.findOneAndUpdate({ user: user },{password:passwordHashed,classes:classes});
+    const teacher = await Teachers.findByIdAndUpdate (id,{password:passwordHashed,classes:classes,user:user});
 
 
     //Si es que no encuentra el usuario o hubo algun problema devuelve error
@@ -67,25 +67,32 @@ const modifyTeacher = async ({ user, password, classes }) => {
 };
 
 //servicio para eliminar un profesor
-const removingTeacher = async ({user,classes}) => {
-    const deletedTeacher = await Teachers.deleteOne ({user});
+const removingTeacher = async ({ id }) => {
+    const teachers = await Teachers.findById (id);
+    const classes = teachers.classes
+
+
+    const deletedTeacher = await Teachers.findByIdAndDelete (id);
 
     //llamamos a nuestro modelo de clases
     const classesRel = await classesModel.findById(classes);
+    
 
-    //Actualizamos el objeto "teacher" en el modelo de clases a un objeto vacio para añadir futuros profesores
-    if({classes}) {
-        await classesRel.updateOne(classesRel.teacher,{});
+    // Actualizamos el objeto "teacher" en el modelo de clases a un objeto vacio para añadir futuros profesores
+    if(classesRel) {
+        classesRel.teacher= undefined;
         classesRel.save();
     }
+
+
 
     if(!deletedTeacher) throw new Error ('No se pudo eliminar el profesor')
     return deletedTeacher
 };
 
 //servicio para añadir mas de una clase a un profesor
-const addClass = async ({user,classes}) => {
-    const classAdded = await Teachers.findOne({user});
+const addClass = async ({ classes }, { id }) => {
+    const classAdded = await Teachers.findOne(id);
     classAdded.classes.push(classes);
     await classAdded.save();
   

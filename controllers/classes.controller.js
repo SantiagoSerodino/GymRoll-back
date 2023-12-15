@@ -3,8 +3,8 @@ const { createClass, modifyClass, allClasses,removingClass } = require('../servi
 // Controlador para crear Clases
 const registerClass = async (req, res) => {
     try {
-        const newClass = await createClass(req.body);
-        res.status(201).json(newClass)
+        await createClass(req.body);
+        res.status(201).send("Clase creada con éxito")
 
     } catch (error) {
         console.log(error);
@@ -23,11 +23,11 @@ const getAllClasses = async (req, res) => {
     }
 };
 
-// Controlador para editar las clases creadas
+//Controlador para editar o actualizar las clases por ID
 const editClass = async (req, res) => {
     try {
-        const editedClass = await modifyClass(req.body);
-        res.status(200).json(editedClass);
+        await modifyClass(req.body,req.params);
+        res.status(200).send("Clase actualizada con éxito");
 
     } catch (error) {
         console.log(error);
@@ -35,11 +35,11 @@ const editClass = async (req, res) => {
     }
 };
 
-// Controlador para eliminar una clase
+//Controlador para eliminar una clase por ID
 const deleteClass = async (req, res) => {
     try {
-        const deletedClass = await removingClass(req.body);
-        res.status(200).json(deletedClass);
+        await removingClass(req.params);
+        res.status(200).send("Clase eliminada con éxito");
 
     } catch (error) {
         console.log(error);
