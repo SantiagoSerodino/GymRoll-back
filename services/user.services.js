@@ -71,7 +71,7 @@ const loginUserService = async ({
   }
 
   const token = jwt.sign(payload, secretKey, { 
-    expiresIn: '1h' 
+    expiresIn: '3h' 
   });
 
   return {
@@ -111,10 +111,6 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
     query.contractedPlan = contractedPlan;
   }
 
-  if(users){
-    query.users = [users];
-  }
-
   if(classes){
     query.classes = classes;
   }
@@ -138,7 +134,7 @@ const getAllusersService = async ({ username, email, name, lastName, phoneNumber
 };
 
 //Servicio para editar un usuario
-const userModified = async ({password,classes,contractedPlan},{id}) => {
+const userModified = async ({ password, classes, contractedPlan, name, lastName },{ id }) => {
   let query = {}
 
   if(password){
@@ -154,6 +150,12 @@ const userModified = async ({password,classes,contractedPlan},{id}) => {
   if(contractedPlan){
     query.contractedPlan = contractedPlan;
   }
+  if(name){
+    query.name = name;
+  }
+  if(lastName){
+    query.lastName = lastName;
+  }
 
   //Busca el usuario por el ID ingresado y luego de encontrarlo lo actualiza con el resto de datos ingresados
   const userModify = await User.findByIdAndUpdate (id,query);
@@ -162,8 +164,8 @@ const userModified = async ({password,classes,contractedPlan},{id}) => {
   const usersRel = await classesModel.findById(classes);
   
   //Guardamos el id del usuario editado en la key de "users" en el modelo de clases asi se ve reflejado en la base de datos
-  usersRel.users.push(userModify._id);
-  await usersRel.save();
+  usersRel?.users?.push(userModify._id);
+  await usersRel?.save();
 
   //Maneja los errores y retorna el usuario modificado si es que no los hay
   if(!userModify) throw new Error ('No se pudo modificar el Usuario');

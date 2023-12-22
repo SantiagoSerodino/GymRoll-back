@@ -40,6 +40,11 @@ const userSchema = new Schema({
       type: Boolean,
       default: false
     },
+    //se define admin como tipo false como predefinido
+    superAdmin: {
+      type: Boolean,
+      default: false
+    },
     //Se define la relacion entre clases y usuarios  
     classes: {
       type : Schema.Types.ObjectId,

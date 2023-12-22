@@ -51,14 +51,40 @@ const teachersList = async () => {
 };
 
 //Servicio para modificar un profesor
-const modifyTeacher = async ({ user, password, classes },{id}) => {
+const modifyTeacher = async ({ user, password, classes, name, lastName },{id}) => {
+
+    let query = {};
+
+    if(user){
+        query.user = user;
+    }
+    if (password) {
+        //Encriptamos la contraseña con nuestra funcion encryptPassword
+        const passwordHashed = await encryptPassword(password);
+        query.password = passwordHashed;
+    }
+    if (name) {
+        query.name = name;
+    }
+    if (lastName) {
+        query.lastName = lastName;
+    }
+    if (classes) {
+        query.classes = classes;
+
+        //llamamos a nuestro modelo de clases
+        const classesRel = await classesModel.findById(classes);
+        // Actualizamos el objeto "teacher" en el modelo de clases a un objeto vacio para añadir futuros profesores
+        if(classesRel) {
+            classesRel.teacher= id;
+            classesRel.save();
+        }
+    }
     
-    //Encriptamos la contraseña con nuestra funcion encryptPassword
-    const passwordHashed = await encryptPassword(password);
 
 
     //buscamos el usuario por el usuario y lo editamos con la informacion ingresada
-    const teacher = await Teachers.findByIdAndUpdate (id,{password:passwordHashed,classes:classes,user:user});
+    const teacher = await Teachers.findByIdAndUpdate (id,query);
 
 
     //Si es que no encuentra el usuario o hubo algun problema devuelve error
@@ -89,32 +115,10 @@ const removingTeacher = async ({ id }) => {
     if(!deletedTeacher) throw new Error ('No se pudo eliminar el profesor')
     return deletedTeacher
 };
-
-//servicio para añadir mas de una clase a un profesor
-const addClass = async ({ classes }, { id }) => {
-    const classAdded = await Teachers.findOne(id);
-    classAdded.classes.push(classes);
-    await classAdded.save();
-  
-
-
-    //llamamos a nuestro modelo de clases
-    const classesRel = await classesModel.findById(classes);
-
-    //Guardamos el id del profesor creado en la key de "teacher" en el modelo de clases asi se ve reflejado en la base de datos
-    if(classes) {
-        classesRel.teacher=classAdded._id;
-        await classesRel.save();
-    };
-
-    if(!classAdded) throw new Error ('No se pudo eliminar el profesor')
-    return classAdded
-};
  
 module.exports = {
     createTeacher,
     teachersList,
     modifyTeacher,
     removingTeacher,
-    addClass
 };
